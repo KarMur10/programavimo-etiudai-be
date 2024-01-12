@@ -1,6 +1,5 @@
 package com.programavimoetiudaibe.entities;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 

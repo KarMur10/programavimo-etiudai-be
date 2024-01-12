@@ -14,7 +14,7 @@ public class WinningIsTheOnlyThingService {
     }
 
     public List<TournamentParticipant> GenerateParticipants(int participantNum, int powerIncrement) {
-        List<TournamentParticipant> participants = new ArrayList<TournamentParticipant>();
+        List<TournamentParticipant> participants = new ArrayList<>();
 
         for (int i = 1; i <= participantNum; i++) {
             participants.add(TournamentParticipant.builder()
@@ -28,7 +28,6 @@ public class WinningIsTheOnlyThingService {
 
     public List<TournamentParticipant> RoundRobinOrder(int participantNum) {
         // todo
-        List<TournamentParticipant> participants = GenerateParticipants(participantNum);
-        return participants;
+        return GenerateParticipants(participantNum);
     }
 }
