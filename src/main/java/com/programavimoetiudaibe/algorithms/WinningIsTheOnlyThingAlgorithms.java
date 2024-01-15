@@ -1,5 +1,6 @@
 package com.programavimoetiudaibe.algorithms;
 
+import com.programavimoetiudaibe.entities.TournamentIndividualResults;
 import com.programavimoetiudaibe.entities.TournamentParticipant;
 import com.programavimoetiudaibe.entities.TournamentStandings;
 import org.springframework.stereotype.Component;
@@ -7,18 +8,27 @@ import org.springframework.stereotype.Component;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.stream.IntStream;
+import org.javatuples.Pair;
 
 @Component
-public class WinningIsTheOnlyThing {
-    public List<TournamentStandings> RoundRobinOrder (List<TournamentParticipant> participants, List<TournamentStandings> standings) {
+public class WinningIsTheOnlyThingAlgorithms {
+    public List<TournamentStandings> RoundRobinOrder (
+            List<TournamentParticipant> participants,
+            List<TournamentStandings> standings,
+            List<TournamentIndividualResults> individualResults
+    ) {
         IntStream.range(0, participants.size())
                 .forEach(i -> IntStream.range(i + 1, participants.size())
-                        .forEach(j -> ResolveMatchup(participants.get(i), participants.get(j), standings)));
+                        .forEach(j -> ResolveMatchup(participants.get(i), participants.get(j), standings, individualResults)));
 
         List<TournamentStandings> finalStandings = standings
                 .stream()
-                .sorted(Comparator.comparing(TournamentStandings::getCurrentRecordWins).thenComparing(TournamentStandings::getId).reversed())
+                .sorted(Comparator
+                        .comparing(TournamentStandings::getCurrentRecordWins)
+                        .thenComparing(TournamentStandings::getId)
+                        .reversed())
                 .toList();
 
         IntStream.range(0, finalStandings.size())
@@ -27,9 +37,22 @@ public class WinningIsTheOnlyThing {
         return finalStandings;
     }
 
-    private void ResolveMatchup (TournamentParticipant participant1, TournamentParticipant participant2, List<TournamentStandings> standings) {
-        int winnerId;
-        int loserId;
+    public List<TournamentStandings> SwissOrder (
+            List<TournamentParticipant> participants,
+            List<TournamentStandings> standings,
+            List<TournamentIndividualResults> individualResults
+    ) {
+        return null;
+    }
+
+    private void ResolveMatchup (
+            TournamentParticipant participant1,
+            TournamentParticipant participant2,
+            List<TournamentStandings> standings,
+            List<TournamentIndividualResults> individualResults
+    ) {
+        UUID winnerId;
+        UUID loserId;
         int n = FindN(standings.size());
 
         if(DoesParticipant1Win(participant1, participant2, n)) {
@@ -48,6 +71,13 @@ public class WinningIsTheOnlyThing {
                 .filter(x -> x.getId() == loserId)
                 .findFirst()
                 .ifPresent(x -> x.setCurrentRecordLosses(x.getCurrentRecordLosses() + 1));
+
+        individualResults.add(TournamentIndividualResults.builder()
+                .id(UUID.randomUUID())
+                .contestantsIds(Pair.with(participant1.getId(), participant2.getId()))
+                .winnerId(winnerId)
+                .build()
+        );
     }
 
     private boolean DoesParticipant1Win (TournamentParticipant participant1, TournamentParticipant participant2, int n) {

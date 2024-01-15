@@ -1,5 +1,6 @@
 package com.programavimoetiudaibe.controllers;
 
+import com.programavimoetiudaibe.entities.TournamentIndividualResults;
 import com.programavimoetiudaibe.entities.TournamentParticipant;
 import com.programavimoetiudaibe.entities.TournamentStandings;
 import com.programavimoetiudaibe.services.WinningIsTheOnlyThingService;
@@ -24,20 +25,13 @@ public class WinningIsTheOnlyThingController {
         return witotService.GetRoundRobinOrder(participantNum);
     }
 
-
-
-
-    @GetMapping("/getInitializedStandings")
-    public List<TournamentStandings> GetInintializedStandings(int participantNum) {
-        return witotService.GetInitializedStandings(participantNum);
+    @GetMapping("/getSwissOrder")
+    public List<TournamentStandings> GetSwissOrder(int participantNum) {
+        return witotService.GetSwissOrder(participantNum);
     }
 
-    @GetMapping("/testN")
-    public int testN(int participantNum) {
-        return witotService.testN(participantNum);
-    }
-    @GetMapping
-    public String GetResponse() {
-        return "pong";
+    @GetMapping("/getRoundRobinIndividualResults")
+    public List<TournamentIndividualResults> GetRoundRobinIndividualResults(int participantNum) {
+        return witotService.GetRoundRobinIndividualResults(participantNum);
     }
 }
