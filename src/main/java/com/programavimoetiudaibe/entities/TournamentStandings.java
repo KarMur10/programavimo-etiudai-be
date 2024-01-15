@@ -6,5 +6,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 public class TournamentStandings extends TournamentParticipant {
-    private int currentStanding;
+    private int currentRecordWins;
+    private int currentRecordLosses;
+    private int standing;
 }
