@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class TournamentIndividualResults {
+public class TournamentMatchups {
     private UUID id;
     private Pair<UUID, UUID> contestantsIds;
     private UUID winnerId;
